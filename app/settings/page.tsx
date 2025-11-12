@@ -155,8 +155,8 @@ export default function SettingsPage() {
       setEditingTarget(target);
       setTargetFormData({
         param: target.param,
-        min: target.min.toString(),
-        max: target.max.toString(),
+        min: target.min?.toString() || "",
+        max: target.max?.toString() || "",
         unit: target.unit,
       });
     } else {
@@ -555,7 +555,9 @@ export default function SettingsPage() {
                     <CardHeader>
                       <CardTitle>{target.param}</CardTitle>
                       <CardDescription>
-                        Target range: {target.min} - {target.max} {target.unit}
+                        Target range: {target.min !== undefined && target.max !== undefined
+                          ? `${target.min} - ${target.max} ${target.unit}`
+                          : "No target range defined"}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>

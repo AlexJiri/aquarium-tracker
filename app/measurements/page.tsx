@@ -443,6 +443,8 @@ export default function MeasurementsPage() {
                       const inRange =
                         latestLog &&
                         latestLog.value !== undefined &&
+                        target.min !== undefined &&
+                        target.max !== undefined &&
                         latestLog.value >= target.min &&
                         latestLog.value <= target.max;
 
@@ -454,7 +456,9 @@ export default function MeasurementsPage() {
                           <div>
                             <div className="font-medium">{target.param}</div>
                             <div className="text-sm text-muted-foreground">
-                              Target: {target.min} - {target.max} {target.unit}
+                              Target: {target.min !== undefined && target.max !== undefined
+                                ? `${target.min} - ${target.max} ${target.unit}`
+                                : "No target range defined"}
                             </div>
                             {latestLog && (
                               <div className="text-sm">
