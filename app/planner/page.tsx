@@ -21,7 +21,7 @@ import { getProjects, getActions, createAction, updateAction, deleteAction } fro
 import { formatDate } from "@/lib/utils";
 import { Plus, CheckCircle2, Circle } from "lucide-react";
 import { addDays, startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, endOfYear, isSameDay, format, eachMonthOfInterval } from "date-fns";
-import type { Project, Action } from "@/lib/types";
+import type { Project, Action, ActionType } from "@/lib/types";
 
 export default function PlannerPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -30,7 +30,11 @@ export default function PlannerPage() {
   const [view, setView] = useState<"day" | "week" | "month" | "year">("week");
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    type: ActionType | "";
+    date: string;
+    notes: string;
+  }>({
     type: "",
     date: new Date().toISOString().split("T")[0],
     notes: "",
@@ -74,9 +78,13 @@ export default function PlannerPage() {
     e.preventDefault();
     if (!selectedProject) return;
     try {
+      if (!formData.type) {
+        alert("Please select a task type");
+        return;
+      }
       await createAction({
         projectId: selectedProject,
-        type: formData.type,
+        type: formData.type as ActionType,
         date: formData.date,
         done: false,
         notes: formData.notes || undefined,
@@ -181,15 +189,28 @@ export default function PlannerPage() {
                   <div className="grid gap-4 py-4">
                     <div className="grid gap-2">
                       <Label htmlFor="type">Task Type</Label>
-                      <Input
+                      <select
                         id="type"
                         value={formData.type}
                         onChange={(e) =>
-                          setFormData({ ...formData, type: e.target.value })
+                          setFormData({
+                            ...formData,
+                            type: e.target.value as ActionType | "",
+                          })
                         }
-                        placeholder="e.g., Water change, Pruning, CO₂ check"
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         required
-                      />
+                      >
+                        <option value="">Select task type</option>
+                        <option value="fertilization">Fertilization</option>
+                        <option value="waterChange">Water Change</option>
+                        <option value="pruning">Pruning</option>
+                        <option value="glassCleaning">Glass Cleaning</option>
+                        <option value="filterMaintenance">Filter Maintenance</option>
+                        <option value="co2Check">CO₂ Check</option>
+                        <option value="lightingAdjust">Lighting Adjust</option>
+                        <option value="other">Other</option>
+                      </select>
                     </div>
                     <div className="grid gap-2">
                       <Label htmlFor="date">Date</Label>
