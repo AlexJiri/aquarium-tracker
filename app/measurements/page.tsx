@@ -168,7 +168,9 @@ export default function MeasurementsPage() {
   }
 
   const chartData = getChartData();
-  const uniqueParams = Array.from(new Set(logs.map((l) => l.param).filter(Boolean)));
+  const uniqueParams = Array.from(
+    new Set(logs.map((l) => l.param).filter((p): p is string => Boolean(p)))
+  );
 
   if (projects.length === 0) {
     return (
