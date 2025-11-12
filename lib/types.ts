@@ -5,6 +5,12 @@ export type Project = {
   id: ID;
   name: string; // e.g., "Aquarium"
   description?: string;
+  dimensions?: {
+    length?: number; // cm
+    width?: number; // cm
+    height?: number; // cm
+    volume?: number; // liters
+  };
   createdAt: ISODate;
 };
 
