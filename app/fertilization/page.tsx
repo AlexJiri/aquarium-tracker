@@ -99,12 +99,17 @@ export default function FertilizationPage() {
     e.preventDefault();
     if (!selectedProject) return;
     try {
+      const scheduleValue = formData.schedule as "daily" | "weekly" | "biweekly" | "monthly";
+      const fertilizerData = {
+        ...formData,
+        schedule: scheduleValue,
+      };
       if (editingFertilizer) {
-        await updateFertilizer(editingFertilizer.id, formData);
+        await updateFertilizer(editingFertilizer.id, fertilizerData);
       } else {
         await createFertilizer({
           projectId: selectedProject,
-          ...formData,
+          ...fertilizerData,
         });
       }
       setIsDialogOpen(false);
@@ -214,15 +219,21 @@ export default function FertilizationPage() {
                     </div>
                     <div className="grid gap-2">
                       <Label htmlFor="schedule">When</Label>
-                      <Input
+                      <select
                         id="schedule"
                         value={formData.schedule}
                         onChange={(e) =>
                           setFormData({ ...formData, schedule: e.target.value })
                         }
-                        placeholder="e.g., Daily, Weekly, Every 3 days"
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         required
-                      />
+                      >
+                        <option value="">Select schedule</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="biweekly">Biweekly</option>
+                        <option value="monthly">Monthly</option>
+                      </select>
                     </div>
                     <div className="grid gap-2">
                       <Label htmlFor="targetEffect">Target/Effect</Label>
