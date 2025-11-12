@@ -80,14 +80,15 @@ export default function LightingPage() {
     if (device) {
       setEditingDevice(device);
       const settings = device.settings || {};
+      const channels = settings.channels || {};
       setFormData({
         type: device.type,
         name: device.name,
-        intensity: settings.intensity?.toString() || "50",
-        W: settings.W?.toString() || "0",
-        R: settings.R?.toString() || "0",
-        G: settings.G?.toString() || "0",
-        B: settings.B?.toString() || "0",
+        intensity: settings.intensityPercent?.toString() || "50",
+        W: channels.W?.toString() || "0",
+        R: channels.R?.toString() || "0",
+        G: channels.G?.toString() || "0",
+        B: channels.B?.toString() || "0",
       });
     } else {
       setEditingDevice(null);
@@ -109,14 +110,16 @@ export default function LightingPage() {
     if (!selectedProject) return;
     try {
       const settings: Device["settings"] = {
-        intensity: parseFloat(formData.intensity),
+        intensityPercent: parseFloat(formData.intensity),
       };
 
       if (formData.type === "lamp") {
-        settings.W = parseFloat(formData.W);
-        settings.R = parseFloat(formData.R);
-        settings.G = parseFloat(formData.G);
-        settings.B = parseFloat(formData.B);
+        settings.channels = {
+          W: parseFloat(formData.W),
+          R: parseFloat(formData.R),
+          G: parseFloat(formData.G),
+          B: parseFloat(formData.B),
+        };
       }
 
       if (editingDevice) {
@@ -364,36 +367,36 @@ export default function LightingPage() {
                             type="range"
                             min="0"
                             max="100"
-                            value={lamp.settings?.intensity || 0}
+                            value={lamp.settings?.intensityPercent || 0}
                             onChange={(e) =>
                               updateDeviceSettings(lamp.id, {
-                                intensity: parseInt(e.target.value),
+                                intensityPercent: parseInt(e.target.value),
                               })
                             }
                             className="flex-1"
                           />
                           <span className="text-sm font-medium w-12">
-                            {lamp.settings?.intensity || 0}%
+                            {lamp.settings?.intensityPercent || 0}%
                           </span>
                         </div>
                       </div>
-                      {lamp.settings?.W !== undefined && (
+                      {lamp.settings?.channels?.W !== undefined && (
                         <div className="grid grid-cols-4 gap-2 text-xs">
                           <div>
                             <div className="font-medium">W</div>
-                            <div>{lamp.settings?.W || 0}%</div>
+                            <div>{lamp.settings?.channels?.W || 0}%</div>
                           </div>
                           <div>
                             <div className="font-medium">R</div>
-                            <div>{lamp.settings?.R || 0}%</div>
+                            <div>{lamp.settings?.channels?.R || 0}%</div>
                           </div>
                           <div>
                             <div className="font-medium">G</div>
-                            <div>{lamp.settings?.G || 0}%</div>
+                            <div>{lamp.settings?.channels?.G || 0}%</div>
                           </div>
                           <div>
                             <div className="font-medium">B</div>
-                            <div>{lamp.settings?.B || 0}%</div>
+                            <div>{lamp.settings?.channels?.B || 0}%</div>
                           </div>
                         </div>
                       )}
@@ -442,13 +445,13 @@ export default function LightingPage() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      {device.settings?.intensity !== undefined && (
+                      {device.settings?.intensityPercent !== undefined && (
                         <div className="mb-4">
                           <div className="text-sm text-muted-foreground mb-1">
                             Intensity
                           </div>
                           <div className="text-2xl font-bold">
-                            {device.settings?.intensity}%
+                            {device.settings?.intensityPercent}%
                           </div>
                         </div>
                       )}
