@@ -1,0 +1,10 @@
+# Environment Variables pentru Vercel
+# Copiază acestea în Vercel Dashboard > Project Settings > Environment Variables
+
+NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSyAED9lcad241XDwnzfol3Oo_ZRrWf2E1zE
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=aquarium-tracker-1875b.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=aquarium-tracker-1875b
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=aquarium-tracker-1875b.firebasestorage.app
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=517589810787
+NEXT_PUBLIC_FIREBASE_APP_ID=1:517589810787:web:702659278d950f41590256
+
