@@ -35,6 +35,7 @@ export default function FertilizationPage() {
   const [editingFertilizer, setEditingFertilizer] = useState<Fertilizer | null>(null);
   const [formData, setFormData] = useState({
     name: "",
+    type: "macro" as "macro" | "micro" | "iron" | "other",
     recommendedDose: "",
     schedule: "",
     targetEffect: "",
@@ -79,6 +80,7 @@ export default function FertilizationPage() {
       setEditingFertilizer(fertilizer);
       setFormData({
         name: fertilizer.name,
+        type: fertilizer.type,
         recommendedDose: fertilizer.recommendedDose,
         schedule: fertilizer.schedule,
         targetEffect: fertilizer.targetEffect,
@@ -87,6 +89,7 @@ export default function FertilizationPage() {
       setEditingFertilizer(null);
       setFormData({
         name: "",
+        type: "macro" as "macro" | "micro" | "iron" | "other",
         recommendedDose: "",
         schedule: "",
         targetEffect: "",
@@ -101,8 +104,11 @@ export default function FertilizationPage() {
     try {
       const scheduleValue = formData.schedule as "daily" | "weekly" | "biweekly" | "monthly";
       const fertilizerData = {
-        ...formData,
+        name: formData.name,
+        type: formData.type,
+        recommendedDose: formData.recommendedDose,
         schedule: scheduleValue,
+        targetEffect: formData.targetEffect,
       };
       if (editingFertilizer) {
         await updateFertilizer(editingFertilizer.id, fertilizerData);
@@ -201,6 +207,26 @@ export default function FertilizationPage() {
                         placeholder="e.g., NPK Booster"
                         required
                       />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="type">Type</Label>
+                      <select
+                        id="type"
+                        value={formData.type}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            type: e.target.value as "macro" | "micro" | "iron" | "other",
+                          })
+                        }
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        required
+                      >
+                        <option value="macro">Macro</option>
+                        <option value="micro">Micro</option>
+                        <option value="iron">Iron</option>
+                        <option value="other">Other</option>
+                      </select>
                     </div>
                     <div className="grid gap-2">
                       <Label htmlFor="recommendedDose">Recommended Dose</Label>
