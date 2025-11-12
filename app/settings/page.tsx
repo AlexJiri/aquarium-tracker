@@ -20,7 +20,7 @@ import { preloadDennerleData } from "@/lib/preload-data";
 import { formatDate } from "@/lib/utils";
 import { Plus, Trash2, Edit } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { Project, Target } from "@/lib/types";
+import type { Project, Target, TargetParam } from "@/lib/types";
 
 export default function SettingsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -39,7 +39,12 @@ export default function SettingsPage() {
     height: "",
     volume: "",
   });
-  const [targetFormData, setTargetFormData] = useState({
+  const [targetFormData, setTargetFormData] = useState<{
+    param: TargetParam | "";
+    min: string;
+    max: string;
+    unit: string;
+  }>({
     param: "",
     min: "",
     max: "",
@@ -174,10 +179,14 @@ export default function SettingsPage() {
   async function handleTargetSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!selectedProject) return;
+    if (!targetFormData.param) {
+      alert("Please select a parameter");
+      return;
+    }
     try {
       if (editingTarget) {
         await updateTarget(editingTarget.id, {
-          param: targetFormData.param,
+          param: targetFormData.param as TargetParam,
           min: parseFloat(targetFormData.min),
           max: parseFloat(targetFormData.max),
           unit: targetFormData.unit,
@@ -185,7 +194,7 @@ export default function SettingsPage() {
       } else {
         await createTarget({
           projectId: selectedProject,
-          param: targetFormData.param,
+          param: targetFormData.param as TargetParam,
           min: parseFloat(targetFormData.min),
           max: parseFloat(targetFormData.max),
           unit: targetFormData.unit,
@@ -457,18 +466,30 @@ export default function SettingsPage() {
                         <div className="grid gap-4 py-4">
                           <div className="grid gap-2">
                             <Label htmlFor="target-param">Parameter</Label>
-                            <Input
+                            <select
                               id="target-param"
                               value={targetFormData.param}
                               onChange={(e) =>
                                 setTargetFormData({
                                   ...targetFormData,
-                                  param: e.target.value,
+                                  param: e.target.value as TargetParam | "",
                                 })
                               }
-                              placeholder="e.g., NO₃, PO₄, K, Fe"
+                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                               required
-                            />
+                            >
+                              <option value="">Select parameter</option>
+                              <option value="NO3">NO₃</option>
+                              <option value="PO4">PO₄</option>
+                              <option value="K">K</option>
+                              <option value="Fe">Fe</option>
+                              <option value="pH">pH</option>
+                              <option value="KH">KH</option>
+                              <option value="GH">GH</option>
+                              <option value="Temp">Temp</option>
+                              <option value="CO2">CO₂</option>
+                              <option value="LightIntensity">Light Intensity</option>
+                            </select>
                           </div>
                           <div className="grid grid-cols-2 gap-4">
                             <div className="grid gap-2">
