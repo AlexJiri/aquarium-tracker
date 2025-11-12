@@ -18,6 +18,7 @@ import type {
   Device,
   Target,
   Fertilizer,
+  ISODate,
   Log,
   Action,
   Photo,
@@ -77,11 +78,15 @@ export async function getDevices(projectId: string): Promise<Device[]> {
   return snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
+    createdAt: doc.data().createdAt?.toDate?.().toISOString() || doc.data().createdAt,
   })) as Device[];
 }
 
-export async function createDevice(data: Omit<Device, "id">): Promise<string> {
-  const docRef = await addDoc(collection(db, "devices"), data);
+export async function createDevice(data: Omit<Device, "id" | "createdAt"> & { createdAt?: ISODate }): Promise<string> {
+  const docRef = await addDoc(collection(db, "devices"), {
+    ...data,
+    createdAt: data.createdAt ? Timestamp.fromDate(new Date(data.createdAt)) : Timestamp.now(),
+  });
   return docRef.id;
 }
 

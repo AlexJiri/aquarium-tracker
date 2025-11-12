@@ -166,13 +166,14 @@ export async function importProject(
 
   // Import all data
   await Promise.all([
-    ...data.devices.map((d) =>
-      createDevice({
-        ...d,
+    ...data.devices.map((d) => {
+      const { id, createdAt, ...deviceData } = d;
+      return createDevice({
+        ...deviceData,
         projectId,
-        createdAt: d.createdAt || new Date().toISOString(),
-      })
-    ),
+        createdAt: createdAt,
+      });
+    }),
     ...data.targets.map((t) => createTarget({ ...t, projectId })),
     ...data.fertilizers.map((f) => createFertilizer({ ...f, projectId })),
     ...data.measurements.map((m) => createMeasurement({ ...m, projectId })),

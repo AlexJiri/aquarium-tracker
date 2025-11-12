@@ -29,7 +29,6 @@ export async function preloadDefaultData() {
         intensityPercent: 70,
         channels: { W: 50, R: 90, G: 65, B: 70 },
       },
-      createdAt: new Date().toISOString(),
     });
 
     // Create targets
