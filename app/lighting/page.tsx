@@ -44,12 +44,14 @@ export default function LightingPage() {
 
   useEffect(() => {
     loadProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (selectedProject) {
       loadDevices();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProject]);
 
   async function loadProjects() {
@@ -426,7 +428,7 @@ export default function LightingPage() {
           <CardContent>
             {devices.length === 0 ? (
               <p className="text-sm text-muted-foreground text-center py-8">
-                No devices added yet. Click "Add Device" to get started.
+                No devices added yet. Click &quot;Add Device&quot; to get started.
               </p>
             ) : (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

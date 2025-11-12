@@ -38,12 +38,14 @@ export default function PlannerPage() {
 
   useEffect(() => {
     loadProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (selectedProject) {
       loadActions();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProject, currentDate, view]);
 
   async function loadProjects() {

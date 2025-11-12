@@ -1,0 +1,5 @@
+[33mef7baf8[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Add fallback: npm ci as alternative if pnpm fails
+[33m239c85e[m Fix: Use pnpm 8.15.0 instead of latest for Vercel
+[33ma72d956[m Fix: Switch to pnpm for Vercel deployment
+[33mf4c417a[m Fix: Use Node 18 for better npm compatibility on Vercel
+[33mee1a25c[m Fix: Use npm ci for Vercel install

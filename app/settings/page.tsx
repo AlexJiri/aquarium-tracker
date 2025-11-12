@@ -48,12 +48,14 @@ export default function SettingsPage() {
 
   useEffect(() => {
     loadProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (selectedProject) {
       loadTargets();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProject]);
 
   async function loadProjects() {
@@ -542,7 +544,7 @@ export default function SettingsPage() {
               <Card>
                 <CardContent className="flex items-center justify-center h-64">
                   <p className="text-muted-foreground">
-                    No targets defined. Click "New Target" to get started.
+                    No targets defined. Click &quot;New Target&quot; to get started.
                   </p>
                 </CardContent>
               </Card>

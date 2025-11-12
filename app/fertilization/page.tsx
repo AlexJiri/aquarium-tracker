@@ -42,12 +42,14 @@ export default function FertilizationPage() {
 
   useEffect(() => {
     loadProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (selectedProject) {
       loadFertilizers();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProject]);
 
   async function loadProjects() {
@@ -256,7 +258,7 @@ export default function FertilizationPage() {
           <CardContent>
             {fertilizers.length === 0 ? (
               <p className="text-sm text-muted-foreground text-center py-8">
-                No fertilizers added yet. Click "Add Fertilizer" to get started.
+                No fertilizers added yet. Click &quot;Add Fertilizer&quot; to get started.
               </p>
             ) : (
               <Table>

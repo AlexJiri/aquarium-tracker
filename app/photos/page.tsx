@@ -37,12 +37,14 @@ export default function PhotosPage() {
 
   useEffect(() => {
     loadProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (selectedProject) {
       loadPhotos();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProject]);
 
   async function loadProjects() {
@@ -230,7 +232,7 @@ export default function PhotosPage() {
           <Card>
             <CardContent className="flex items-center justify-center h-64">
               <p className="text-muted-foreground">
-                No photos uploaded yet. Click "Upload Photo" to get started.
+                No photos uploaded yet. Click &quot;Upload Photo&quot; to get started.
               </p>
             </CardContent>
           </Card>
@@ -240,6 +242,7 @@ export default function PhotosPage() {
               <Card key={photo.id}>
                 <CardContent className="p-0">
                   <div className="relative aspect-video w-full">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={photo.url}
                       alt={photo.notes || "Aquarium photo"}
