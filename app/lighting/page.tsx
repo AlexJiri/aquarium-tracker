@@ -79,14 +79,15 @@ export default function LightingPage() {
   function openDialog(device?: Device) {
     if (device) {
       setEditingDevice(device);
+      const settings = device.settings || {};
       setFormData({
         type: device.type,
         name: device.name,
-        intensity: device.settings.intensity?.toString() || "50",
-        W: device.settings.W?.toString() || "0",
-        R: device.settings.R?.toString() || "0",
-        G: device.settings.G?.toString() || "0",
-        B: device.settings.B?.toString() || "0",
+        intensity: settings.intensity?.toString() || "50",
+        W: settings.W?.toString() || "0",
+        R: settings.R?.toString() || "0",
+        G: settings.G?.toString() || "0",
+        B: settings.B?.toString() || "0",
       });
     } else {
       setEditingDevice(null);
@@ -155,7 +156,7 @@ export default function LightingPage() {
       const device = devices.find((d) => d.id === id);
       if (!device) return;
       await updateDevice(id, {
-        settings: { ...device.settings, ...settings },
+        settings: { ...(device.settings || {}), ...settings },
       });
       loadDevices();
     } catch (error) {
@@ -363,7 +364,7 @@ export default function LightingPage() {
                             type="range"
                             min="0"
                             max="100"
-                            value={lamp.settings.intensity || 0}
+                            value={lamp.settings?.intensity || 0}
                             onChange={(e) =>
                               updateDeviceSettings(lamp.id, {
                                 intensity: parseInt(e.target.value),
@@ -372,27 +373,27 @@ export default function LightingPage() {
                             className="flex-1"
                           />
                           <span className="text-sm font-medium w-12">
-                            {lamp.settings.intensity || 0}%
+                            {lamp.settings?.intensity || 0}%
                           </span>
                         </div>
                       </div>
-                      {lamp.settings.W !== undefined && (
+                      {lamp.settings?.W !== undefined && (
                         <div className="grid grid-cols-4 gap-2 text-xs">
                           <div>
                             <div className="font-medium">W</div>
-                            <div>{lamp.settings.W || 0}%</div>
+                            <div>{lamp.settings?.W || 0}%</div>
                           </div>
                           <div>
                             <div className="font-medium">R</div>
-                            <div>{lamp.settings.R || 0}%</div>
+                            <div>{lamp.settings?.R || 0}%</div>
                           </div>
                           <div>
                             <div className="font-medium">G</div>
-                            <div>{lamp.settings.G || 0}%</div>
+                            <div>{lamp.settings?.G || 0}%</div>
                           </div>
                           <div>
                             <div className="font-medium">B</div>
-                            <div>{lamp.settings.B || 0}%</div>
+                            <div>{lamp.settings?.B || 0}%</div>
                           </div>
                         </div>
                       )}
@@ -441,13 +442,13 @@ export default function LightingPage() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      {device.settings.intensity !== undefined && (
+                      {device.settings?.intensity !== undefined && (
                         <div className="mb-4">
                           <div className="text-sm text-muted-foreground mb-1">
                             Intensity
                           </div>
                           <div className="text-2xl font-bold">
-                            {device.settings.intensity}%
+                            {device.settings?.intensity}%
                           </div>
                         </div>
                       )}

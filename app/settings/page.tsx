@@ -374,16 +374,16 @@ export default function SettingsPage() {
                     )}
                     {project.dimensions && (
                       <div className="text-sm space-y-1 mb-4">
-                        {project.dimensions.length && (
+                        {project.dimensions?.length && (
                           <p>Length: {project.dimensions.length} cm</p>
                         )}
-                        {project.dimensions.width && (
+                        {project.dimensions?.width && (
                           <p>Width: {project.dimensions.width} cm</p>
                         )}
-                        {project.dimensions.height && (
+                        {project.dimensions?.height && (
                           <p>Height: {project.dimensions.height} cm</p>
                         )}
-                        {project.dimensions.volume && (
+                        {project.dimensions?.volume && (
                           <p>Volume: {project.dimensions.volume} L</p>
                         )}
                       </div>
